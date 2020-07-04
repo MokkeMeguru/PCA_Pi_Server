@@ -6,6 +6,9 @@ See. docs folder
 
 You only do
 ``` sh
+cd ~
+git clone https://github.com/MokkeMeguru/PCA_Pi_Server PPS
+cd PPS
 sh run_script.sh
 ```
 
