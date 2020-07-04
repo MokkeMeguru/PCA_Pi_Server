@@ -1,0 +1,87 @@
+#+TITLE: Developer's note
+* Doom Emacs Settings
+Doom Emacs における設定は次の通り
+
+1. go の環境を作る
+
+    Archlinux  では、 sudo pacman -Syu go で環境が構築される
+    ※ go-tools は絶対にインストールしないこと。補完などのツールが使用できなくなります。
+    加えて、 GOPATH を .bashrc に書き込んでおく
+
+#+BEGIN_SRC shell
+sudo pacman -Syu go
+echo "export GOPATH=$HOME/go"
+echo "export PATH=$PATH:$GOPATH/bin"
+#+END_SRC
+
+2. .doom.d/init.el の ~(go +lsp)~ をアンコメントする。
+3. gopls をインストールする
+    ※ 2020/07/05 現在、gopls は同一パッケージ内の参照がまともに動作しないバグを持っているので利用を推奨できない。素直に GoLand を使うべき。
+#+BEGIN_SRC shell
+go get -u golang.org/x/tools/cmd/gopls
+go get -u golang.org/x/tools/cmd/goimports
+#+END_SRC
+
+* Web サーバ開発におけるディレクトリ構成
+https://github.com/golang-standards/project-layout を参考にする
+
+
+概要は次の通り
+** /cmd
+アプリのコマンドラインユーティリティ。サーバを立ち上げたり
+** /internal
+アプリのプライベートな実装を書いていくコード。後述する pkg のプライベート版。なんでこいつを リモート 同期にさせようとしたのか理解に苦しむ。
+java で言う private class 辺り
+** /pkg
+外部で公開しても問題ないようなコード
+** /api
+Swagegr なんかで使うエンドポイント周りの設定を書いておく部分
+仕様とかをここに書いておくっぽい
+Clojure (の Reitit) はサーバコード → APIエンドポイント生成が普通なので面倒臭そう
+** /web
+cssとか
+** /configs
+設定ファイル
+** /init
+systemed 設定など
+** /scripts
+make ファイルを書かないのでよくわからない。 apt install とかその周りの話
+** /build
+dockerfile とか ci とか。github actions だとフォルダ指定なので余り使わなさそう。
+** /deployments
+docker-compose.yml とか書くらしい。
+dokcer-compsoe.yml がプロジェクトルート以外に書くべきとする根拠がわからん
+** /test
+統合テスト周りかな
+** /docs
+ドキュメント
+** /assets
+画像とか
+** /website
+github pages 関連かな
+** /examples
+幾つかのツールの実行例。簡易サーバには要らなさそう
+
+* Fu**ing go mod
+go は基本的に github を用いた開発を強制してくる。(あるいはローカルパスを強制してくる。人のストレージを何だと思っているのか)
+例えば,
+#+begin_example
+replace github.com/MokkeMeguru/PCA_Pi_Server/pkg/logger => ./pkg/logger
+#+end_example
+としているのは、まさにこの github 強制を弾くためのもの。
+
+* Go 言語の Web FrameWork 選定
+gin : 早いので… (副作用あるくせに Clojure より遅いフレームワークを使う気にはならない)
+
+* テストの話
+テストはそれぞれのフォルダで行う
+例えば plg/logger なら
+#+BEGIN_SRC shell
+cd pkg/logger
+go test
+#+END_SRC
+とすれば良さそう。
+統合テストはそれこそ /test にコードを沢山書くらしい。
+
+手っ取り早くやりたいなら、VSCode なり GoLand などで自動生成するのが吉。
+Clojureのように網羅テストなどを標準で実装してないんだろうか。

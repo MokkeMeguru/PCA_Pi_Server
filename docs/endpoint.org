@@ -1,0 +1,57 @@
+#+TITLE: Endpoint の話
+
+エンドポイントは次の通り
+* POST /alarm
+#+begin_src shell
+curl -X DELETE http://localhost:8080/clear-sound
+# {}
+#+end_src shell
+** 概要
+記録されている音源を全て削除する
+
+* GET /sound
+#+begin_src shell
+curl -X GET http://localhost:8080/sound
+# {"sounds":["PretenderWithPiano.ogg"]}
+#+end_src
+** 概要
+登録されている音源をリストにして返す
+
+* POST /sound
+#+begin_src shell
+curl -X POST -H "Content-Type: application/json" -d '{"SoundSource":"https://firebasestorage.googleapis.com/v0/b/personalcustomizablealerm.appspot.com/o/official_sample%2Fpretender-with-piano.ogg?alt=media","SoundName":"PretenderWithPiano.ogg"}' http://localhost:8080/sound
+# {}
+#+end_src
+成功時には  200, 失敗時には 304 が流れます。
+* DELETE /clear-sound
+#+begin_src shell
+curl -X GET http://localhost:8080/clear-sound
+# {}
+#+end_src
+** 概要
+登録されている音源を一切消します。
+200 しか返らん
+* POST /alarm
+#+begin_example
+curl -X POST -H "Content-Type: application/json" -d '{"sounds":["1,2020-06-19-08-30,1,/home/pi/PPS/assets/PretenderWithPiano.ogg,3"]}' http://localhost:8080/alarm
+#+end_example
+** 概要
+アラームのリストを設定ファイルに書き込む。
+それ以上でもそれ以下でもない。なんならバリデーションなんて大層なものもしてない。
+下記フォーマットで書けば動くし、そうでなければ動かない。
+** alarm フォーマット
+#+begin_example
+[id],[settime],[type],[path],[time]
+#+end_example
+具体的にはこんな感じ
+#+begin_example
+1,2020-06-19-08-30,1,/home/pi/PPS/assets/PretenderWithPiano.ogg,3
+#+end_example
+
+- id: インデックス、適当に付けてもらって良いです
+- settime: アラームを鳴らす時間 (多分日本時間？)
+- type: sound data type, choices from {1, 2}
+  - 1: 外部 URL を使いたい時
+  - 2: 内部に保存してあるデータを使いたい時 (/home/pi/PPS/assets/<...ogg> 辺りにして下さい)
+- path: 音源データの保存先
+- time: アラームの鳴る回数（２回とか, 0の時は無制限連呼）
