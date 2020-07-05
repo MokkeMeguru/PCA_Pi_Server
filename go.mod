@@ -10,6 +10,8 @@ replace (
 
 require (
 	github.com/MokkeMeguru/PCA_Pi_Server/internal/router v0.0.0-00010101000000-000000000000
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.19.8 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
@@ -19,10 +21,7 @@ require (
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.0
-	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
-	github.com/swaggo/gin-swagger v1.2.0
-	github.com/swaggo/swag v1.6.7 // indirect
-	github.com/urfave/cli/v2 v2.2.0 // indirect
+	github.com/swaggo/swag v1.6.7
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344 // indirect
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
 	golang.org/x/text v0.3.3 // indirect

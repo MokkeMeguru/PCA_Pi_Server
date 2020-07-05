@@ -2,10 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/MokkeMeguru/PCA_Pi_Server/internal/router"
 	"os"
 
+	"github.com/MokkeMeguru/PCA_Pi_Server/internal/router"
+
 	"github.com/gin-gonic/gin"
+
+	"github.com/gin-contrib/cors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -19,7 +22,10 @@ func runServer(cmd *cobra.Command, args []string) {
 	}
 	port := fmt.Sprintf(":%d", viper.Get("port"))
 
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
 	r := gin.Default()
+	r.Use(cors.New(config))
 	router.AddAlarmRoute(r)
 	router.AddSoundRoute(r)
 	r.Run(port)
