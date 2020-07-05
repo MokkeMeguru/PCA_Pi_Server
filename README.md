@@ -6,6 +6,9 @@ See. docs folder
 
 You only do
 ``` sh
+cd ~
+git clone https://github.com/MokkeMeguru/PCA_Pi_Server PPS
+cd PPS
 sh run_script.sh
 ```
 
@@ -16,3 +19,5 @@ Go言語を使って雑にラズパイ用のサーバを建てました。
  
  APIの仕様については、 docs/endpoint.org を参照して下さい。
  
+# Port 番号の変更
+https://github.com/MokkeMeguru/PCA_Pi_Server/blob/master/configs/develop.yml を編集して下さい
