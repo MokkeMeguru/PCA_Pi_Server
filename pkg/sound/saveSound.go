@@ -24,7 +24,7 @@ func isCommandAvailable(name string) bool {
 }
 
 func AssetDownload(url string, saveTo string) bool {
-	opts := []string{"-o", saveTo, url}
+	opts := []string{"-O", saveTo, url}
 	cmd := exec.Command(command, opts...)
 	if err := cmd.Run(); err != nil {
 		fmt.Printf("cmd cannot be completed\n")
