@@ -23,6 +23,6 @@ func FindSounds(saveFolder string) []string {
 func RemoveAllSound(saveFolder string) {
 	dir, _ := ioutil.ReadDir(saveFolder)
 	for _, d := range dir {
-		_ = os.RemoveAll(path.Join([]string{"saveFolder", d.Name()}...))
+		_ = os.Remove(path.Join([]string{saveFolder, d.Name()}...))
 	}
 }
