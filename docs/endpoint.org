@@ -33,7 +33,7 @@ curl -X GET http://localhost:8080/clear-sound
 200 しか返らん
 * POST /alarm
 #+begin_example
-curl -X POST -H "Content-Type: application/json" -d '{"sounds":["1,2020-06-19-08-30,1,/home/pi/PPS/assets/PretenderWithPiano.ogg,3"]}' http://localhost:8080/alarm
+curl -X POST -H "Content-Type: application/json" -d '{"AlarmList":["1,2020-06-19-08-30,2,/home/pi/PPS/assets/PretenderWithPiano.ogg,0"]}' http://localhost:8080/alarm
 #+end_example
 ** 概要
 アラームのリストを設定ファイルに書き込む。
