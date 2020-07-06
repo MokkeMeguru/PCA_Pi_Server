@@ -6,6 +6,7 @@ import (
 )
 
 func ConfigWrite(confStrList []string, path string) {
+	_ = os.Remove(path)
 	file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Printf("file open exception: %s\n", err)
